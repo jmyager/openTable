@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Portfolio</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery.js"></script>
+</head>
+
+
+<body background="assets/images/stardust.png">
+
+    <div class="container">
+        <div class="jumbotron">
+            <h1 class="text-center">Hot Restaurants</h1>
+            <hr>
+            <h2 class="text-center">Make Your reservations</h2>
+            <br>
+
+            <div class="text-center">
+                <a href="/home">
+                    <button type="button" class="btn btn-info">Home</button>
+                </a>
+                <a href="/reserve">
+                    <button type="button" class="btn btn-info">Make Reservations</button>
+                </a>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">Current Reservations</h4>
+                    </div>
+                    <div class="panel-body" id="currentRes"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">Waitlist</h4>
+                    </div>
+                    <div class="panel-body" id="waitlist"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $.get("/api/tables")
+            .then(function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    var well = $("<div>");
+                    well.addClass("well");
+                    well.attr("id", "tableWell-" + i + 1);
+                    $(well).append("<h1>" + (i + 1) + "</h1>");
+                    $(well).append("<p>" + data[i].id + "</p>");
+                    $("#currentRes").append(well);
+                };
+
+            })
+
+        $.get("/api/waitlist")
+            .then(function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    var well = $("<div>");
+                    well.addClass("well");
+                    well.attr("id", "waitlistWell-" + i + 1);
+                    $(well).append("<h1>" + (i + 1) + "</h1>");
+                    $(well).append("<p>" + data[i].id + "</p>");
+                    $("#waitlist").append(well);
+                };
+
+            })
+    </script>
+
+
+</body>
+
+</html>
